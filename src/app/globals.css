@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -80,7 +79,7 @@
 .dark {
 	--background: oklch(17.917% 0.03333 274.502);
 	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
+	--card: oklch(22.527% 0.01353 285.245);
 	--card-foreground: oklch(0.985 0 0);
 	--popover: oklch(0.205 0 0);
 	--popover-foreground: oklch(0.985 0 0);

@@ -1,18 +1,5 @@
-import {
-	Home,
-	Inbox,
-	Calendar,
-	Search,
-	Settings,
-	User2,
-	ChevronUp,
-	Plus,
-	Projector,
-	ChevronDown,
-	LayoutDashboard,
-	ListOrderedIcon,
-	Badge,
-} from 'lucide-react';
+'use client';
+import { Home, LayoutDashboard, ListOrderedIcon, Badge } from 'lucide-react';
 import Link from 'next/link';
 import {
 	Sidebar,

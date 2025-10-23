@@ -19,15 +19,18 @@ import { SidebarTrigger } from '../ui/sidebar';
 
 const Navbar = () => {
 	const { theme, setTheme } = useTheme();
-	// const { toggleSidebar } = useSidebar();
+
 	return (
 		<header className="flex items-center justify-between bg-background px-4 py-2 border-b ">
-			<div className="relative w-full max-w-sm">
-				<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
-				<Input
-					placeholder="Search products or orders..."
-					className="pl-8 bg-secondary border-none text-gray-200 placeholder-gray-400"
-				/>
+			<div className="flex items-center gap-4 w-full">
+				<SidebarTrigger />
+				<div className="relative w-full max-w-sm">
+					<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+					<Input
+						placeholder="Search products or orders..."
+						className="pl-8 bg-secondary border-none text-gray-200 placeholder-gray-400"
+					/>
+				</div>
 			</div>
 
 			{/* Right icons */}
