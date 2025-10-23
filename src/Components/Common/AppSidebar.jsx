@@ -10,10 +10,13 @@ import {
 	Projector,
 	ChevronDown,
 	LayoutDashboard,
+	ListOrderedIcon,
+	Badge,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
 	Sidebar,
+	SidebarContent,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
@@ -23,29 +26,19 @@ import {
 
 const items = [
 	{
-		title: 'Home',
-		url: '/',
-		icon: Home,
+		title: 'Dashboard',
+		url: '/dashboard',
+		icon: <Home />,
 	},
 	{
-		title: 'Inbox',
-		url: '#',
-		icon: Inbox,
+		title: 'Products',
+		url: '/dashboard/products',
+		icon: <Badge />,
 	},
 	{
-		title: 'Calendar',
-		url: '#',
-		icon: Calendar,
-	},
-	{
-		title: 'Search',
-		url: '#',
-		icon: Search,
-	},
-	{
-		title: 'Settings',
-		url: '#',
-		icon: Settings,
+		title: 'Orders',
+		url: ' /dashboard/orders',
+		icon: <ListOrderedIcon />,
 	},
 ];
 
@@ -67,6 +60,26 @@ const AppSidebar = () => {
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarSeparator />
+
+			<SidebarContent>
+				<div className="mt-4 px-2">
+					<SidebarMenu>
+						{items.map((item, i) => (
+							<SidebarMenuItem key={i}>
+								<SidebarMenuButton asChild>
+									<Link
+										href={item.url}
+										className="flex items-center gap-3 rounded px-3 py-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+									>
+										{item.icon}
+										<span>{item.title}</span>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						))}
+					</SidebarMenu>
+				</div>
+			</SidebarContent>
 		</Sidebar>
 	);
 };
