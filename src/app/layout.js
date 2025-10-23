@@ -1,4 +1,6 @@
+import { ThemeProvider } from '@/Components/ui/theme-provider';
 import './globals.css';
+import Navbar from '@/Components/Common/Navbar';
 
 export const metadata = {
 	title: 'Create Next App',
@@ -8,7 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={` antialiased`}>{children}</body>
+			<body>
+				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+					{children}
+				</ThemeProvider>
+			</body>
 		</html>
 	);
 }
