@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@/Components/ui/theme-provider';
 import './globals.css';
-import Navbar from '@/Components/Common/Navbar';
 
 export const metadata = {
 	title: 'Create Next App',

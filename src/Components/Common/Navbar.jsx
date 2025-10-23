@@ -15,13 +15,13 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sun, Moon, User, Settings, LogOut, Search } from 'lucide-react';
 import { Input } from '../ui/input';
+import { SidebarTrigger } from '../ui/sidebar';
 
 const Navbar = () => {
 	const { theme, setTheme } = useTheme();
 	// const { toggleSidebar } = useSidebar();
 	return (
 		<header className="flex items-center justify-between bg-background px-4 py-2 border-b ">
-			{/* Search bar */}
 			<div className="relative w-full max-w-sm">
 				<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
 				<Input

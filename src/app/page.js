@@ -1,11 +1,11 @@
-import Navbar from '@/Components/Common/Navbar';
-import { Button } from '@/Components/ui/button';
-import Image from 'next/image';
+'use client';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-	return (
-		<div>
-			<Navbar />
-		</div>
-	);
+	const router = useRouter();
+
+	useEffect(() => {
+		router.replace('/dashboard'); // Only redirect root
+	}, [router]);
+	return null;
 }
