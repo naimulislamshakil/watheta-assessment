@@ -30,10 +30,14 @@ import { productSchema } from '@/lib/productValidation';
 import { Button } from '@/Components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const categories = ['Electronics', 'Furniture', 'Clothing'];
 
 const Page = () => {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -45,7 +49,7 @@ const Page = () => {
 	});
 	const [activeStatus, setActiveStatus] = useState(true);
 	const [image, setImage] = useState(null);
-	const [imageUrl, setImageUrl] = useState('');
+	const queryClient = useQueryClient();
 	const fileInputRef = useRef(null);
 
 	const [mounted, setMounted] = useState(false);
@@ -66,7 +70,6 @@ const Page = () => {
 			)
 				.then((res) => res.json())
 				.then((data) => {
-					console.log(data);
 					setImage(data?.data?.display_url);
 				})
 				.catch((err) => {
@@ -95,15 +98,45 @@ const Page = () => {
 		}
 	};
 
+	const createProductMutation = useMutation({
+		mutationFn: async (newProduct) => {
+			const res = await fetch(
+				'http://localhost:5000/api/v1/dashboard/products/create',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(newProduct),
+				}
+			);
+			console.log(res);
+			if (!res.ok) throw new Error('Failed to create product');
+
+			const data = res.json();
+
+			toast.success('Product Add Successful.');
+			router.push('/dashboard/products');
+
+			return res.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['products'] });
+		},
+	});
+
 	const onSubmit = (data) => {
 		if (image) {
-			console.log({ ...data, activeStatus, productImage: image });
+			const newProduct = { ...data, activeStatus, productImage: image };
+			createProductMutation.mutate(newProduct);
 			reset();
 			setActiveStatus(true);
 		}
 	};
 
-	console.log(errors);
+	console.log(
+		createProductMutation.data,
+		createProductMutation.isPending,
+		createProductMutation.error
+	);
 
 	return (
 		<div className="p-3">

@@ -1,6 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import ClientWrapper from '@/Components/Common/client-wrappe';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
 	title: 'Your App',
@@ -9,9 +10,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
-			<body >
+			<body>
 				<ClientWrapper>{children}</ClientWrapper>
 			</body>
+			<Toaster />
 		</html>
 	);
 }
