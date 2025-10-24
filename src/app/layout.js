@@ -12,8 +12,8 @@ export default function RootLayout({ children }) {
 		<html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
 			<body>
 				<ClientWrapper>{children}</ClientWrapper>
+				<Toaster />
 			</body>
-			<Toaster />
 		</html>
 	);
 }

@@ -108,7 +108,7 @@ const Page = () => {
 					body: JSON.stringify(newProduct),
 				}
 			);
-			console.log(res);
+			
 			if (!res.ok) throw new Error('Failed to create product');
 
 			const data = res.json();
