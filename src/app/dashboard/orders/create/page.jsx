@@ -15,21 +15,25 @@ import { Textarea } from '@/Components/ui/textarea';
 import orderSchema from '@/lib/Ordervalidation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Label } from '@radix-ui/react-dropdown-menu';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 const Page = () => {
+	const route = useRouter();
 	const {
 		register,
 		handleSubmit,
 		setValue,
+		reset,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(orderSchema),
 	});
 
-	const { data, isLoading, isError, error } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
 		queryFn: async () => {
 			const res = await fetch(
@@ -44,6 +48,37 @@ const Page = () => {
 		},
 	});
 
+	const mutation = useMutation({
+		mutationFn: async (formData) => {
+			const res = await fetch(
+				'http://localhost:5000/api/v1/dashboard/orders/create',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData),
+				}
+			);
+			if (!res.ok) {
+				const errorData = await res.json();
+				throw new Error(errorData.message || 'Failed to create order');
+			}
+
+			return res.json();
+		},
+		onSuccess: (data) => {
+			console.log('Order created:', data);
+			reset();
+			toast.success('Order create Successfully');
+			route.push('/dashboard/orders');
+		},
+		onError: (error) => {
+			console.error('Error:', error);
+			toast.error(error.response?.data?.message || 'Failed to create product');
+		},
+	});
+
 	if (isLoading) {
 		return (
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
@@ -55,9 +90,17 @@ const Page = () => {
 	}
 
 	const onSubmit = (data) => {
-		console.log('Order data:', data);
-		// send to backend here
+		const timestamp = Date.now().toString().slice(-6);
+		const random = Math.floor(Math.random() * 1000)
+			.toString()
+			.padStart(3, '0');
+		const orderId = `ORD-${timestamp}-${random}`;
+		const orderInfo = { ...data, orderId };
+		console.log('Order data:', orderInfo);
+		mutation.mutate(orderInfo);
 	};
+
+	console.log(mutation.error);
 
 	return (
 		<div className="p-3">
@@ -84,7 +127,7 @@ const Page = () => {
 									</SelectTrigger>
 									<SelectContent className="w-full">
 										{data?.products?.map((p, i) => (
-											<SelectItem key={i} value={p.productName}>
+											<SelectItem key={i} value={p._id}>
 												{p.productName}
 											</SelectItem>
 										))}
